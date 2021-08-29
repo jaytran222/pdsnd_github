@@ -110,6 +110,40 @@ def get_filters():
     #Returning the city, month and day selections
     return city, month, day
 
+
+#Function to calculate station related statistics
+def station_stats(df):
+    """Displays statistics on the most popular stations and trip.
+    Args:
+        param1 (df): The data frame you wish to work with.
+    Returns:
+        None.
+    """
+
+    print('\nCalculating The Most Popular Stations and Trip...\n')
+    start_time = time.time()
+
+    #Uses mode method to find the most common start station
+    common_start_station = df['Start Station'].mode()[0]
+
+    print(f"The most commonly used start station: {common_start_station}")
+
+    #Uses mode method to find the most common end station
+    common_end_station = df['End Station'].mode()[0]
+
+    print(f"\nThe most commonly used end station: {common_end_station}")
+
+    #Uses str.cat to combine two colums in the df
+    #Assigns the result to a new column 'Start To End'
+    #Uses mode on this new column to find out the most common combination
+    #of start and end stations
+    df['Start To End'] = df['Start Station'].str.cat(df['End Station'], sep=' to ')
+    combo = df['Start To End'].mode()[0]
+
+    print(f"\nThe most frequent combination of trips are from {combo}.")
+
+    print(f"\nThis took {(time.time() - start_time)} seconds.")
+    print('-'*80)
 #Function to calculate all the time-related statistics for the chosen data
 def time_stats(df):
     """Displays statistics on the most frequent times of travel.
@@ -143,40 +177,6 @@ def time_stats(df):
     #Prints the time taken to perform the calculation
     #You will find this in all the functions involving any calculation
     #throughout this program
-    print(f"\nThis took {(time.time() - start_time)} seconds.")
-    print('-'*80)
-
-#Function to calculate station related statistics
-def station_stats(df):
-    """Displays statistics on the most popular stations and trip.
-    Args:
-        param1 (df): The data frame you wish to work with.
-    Returns:
-        None.
-    """
-
-    print('\nCalculating The Most Popular Stations and Trip...\n')
-    start_time = time.time()
-
-    #Uses mode method to find the most common start station
-    common_start_station = df['Start Station'].mode()[0]
-
-    print(f"The most commonly used start station: {common_start_station}")
-
-    #Uses mode method to find the most common end station
-    common_end_station = df['End Station'].mode()[0]
-
-    print(f"\nThe most commonly used end station: {common_end_station}")
-
-    #Uses str.cat to combine two colums in the df
-    #Assigns the result to a new column 'Start To End'
-    #Uses mode on this new column to find out the most common combination
-    #of start and end stations
-    df['Start To End'] = df['Start Station'].str.cat(df['End Station'], sep=' to ')
-    combo = df['Start To End'].mode()[0]
-
-    print(f"\nThe most frequent combination of trips are from {combo}.")
-
     print(f"\nThis took {(time.time() - start_time)} seconds.")
     print('-'*80)
 
