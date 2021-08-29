@@ -8,6 +8,44 @@ CITY_DATA = { 'chicago': 'chicago.csv', 'Chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv', 'washington': 'washington.csv',
              'Washington': 'washington.csv' }
 
+#Function to load data from .csv files
+def load_data(city, month, day):
+    """
+    Loads data for the specified city and filters by month and day if applicable.
+    Args:
+        param1 (str): name of the city to analyze
+        param2 (str): name of the month to filter by, or "all" to apply no month filter
+        param3 (str): name of the day of week to filter by, or "all" to apply no day filter
+    Returns:
+        df: Pandas DataFrame containing city data filtered by month and day
+    """
+    #Load data for city
+    print("\nLoading data...")
+    df = pd.read_csv(CITY_DATA[city])
+
+    #Convert the Start Time column to datetime
+    df['Start Time'] = pd.to_datetime(df['Start Time'])
+
+    #Extract month and day of week from Start Time to create new columns
+    df['month'] = df['Start Time'].dt.month
+    df['day_of_week'] = df['Start Time'].dt.day_name()
+
+    #Filter by month if applicable
+    if month != 'all':
+        #Use the index of the months list to get the corresponding int
+        months = ['january', 'february', 'march', 'april', 'may', 'june']
+        month = months.index(month) + 1
+
+        #Filter by month to create the new dataframe
+        df = df[df['month'] == month]
+
+    #Filter by day of week if applicable
+    if day != 'all':
+        #Filter by day of week to create the new dataframe
+        df = df[df['day_of_week'] == day.title()]
+
+    #Returns the selected file as a dataframe (df) with relevant columns
+    return df
 #Function to figure out the filtering requirements of the user
 def get_filters():
     """
@@ -71,45 +109,6 @@ def get_filters():
     print('-'*80)
     #Returning the city, month and day selections
     return city, month, day
-
-#Function to load data from .csv files
-def load_data(city, month, day):
-    """
-    Loads data for the specified city and filters by month and day if applicable.
-    Args:
-        param1 (str): name of the city to analyze
-        param2 (str): name of the month to filter by, or "all" to apply no month filter
-        param3 (str): name of the day of week to filter by, or "all" to apply no day filter
-    Returns:
-        df: Pandas DataFrame containing city data filtered by month and day
-    """
-    #Load data for city
-    print("\nLoading data...")
-    df = pd.read_csv(CITY_DATA[city])
-
-    #Convert the Start Time column to datetime
-    df['Start Time'] = pd.to_datetime(df['Start Time'])
-
-    #Extract month and day of week from Start Time to create new columns
-    df['month'] = df['Start Time'].dt.month
-    df['day_of_week'] = df['Start Time'].dt.day_name()
-
-    #Filter by month if applicable
-    if month != 'all':
-        #Use the index of the months list to get the corresponding int
-        months = ['january', 'february', 'march', 'april', 'may', 'june']
-        month = months.index(month) + 1
-
-        #Filter by month to create the new dataframe
-        df = df[df['month'] == month]
-
-    #Filter by day of week if applicable
-    if day != 'all':
-        #Filter by day of week to create the new dataframe
-        df = df[df['day_of_week'] == day.title()]
-
-    #Returns the selected file as a dataframe (df) with relevant columns
-    return df
 
 #Function to calculate all the time-related statistics for the chosen data
 def time_stats(df):
@@ -225,7 +224,7 @@ def user_stats(df):
     """
     print('\nCalculating User Stats...\n')
     start_time = time.time()
-    
+
     #The total users are counted using value_counts method
     #They are then displayed by their types (e.g. Subscriber or Customer)
     user_type = df['User Type'].value_counts()
