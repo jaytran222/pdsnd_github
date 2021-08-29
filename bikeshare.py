@@ -8,6 +8,44 @@ CITY_DATA = { 'chicago': 'chicago.csv', 'Chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv', 'washington': 'washington.csv',
              'Washington': 'washington.csv' }
 
+#Function to load data from .csv files
+def load_data(city, month, day):
+    """
+    Loads data for the specified city and filters by month and day if applicable.
+    Args:
+        param1 (str): name of the city to analyze
+        param2 (str): name of the month to filter by, or "all" to apply no month filter
+        param3 (str): name of the day of week to filter by, or "all" to apply no day filter
+    Returns:
+        df: Pandas DataFrame containing city data filtered by month and day
+    """
+    #Load data for city
+    print("\nLoading data...")
+    df = pd.read_csv(CITY_DATA[city])
+
+    #Convert the Start Time column to datetime
+    df['Start Time'] = pd.to_datetime(df['Start Time'])
+
+    #Extract month and day of week from Start Time to create new columns
+    df['month'] = df['Start Time'].dt.month
+    df['day_of_week'] = df['Start Time'].dt.day_name()
+
+    #Filter by month if applicable
+    if month != 'all':
+        #Use the index of the months list to get the corresponding int
+        months = ['january', 'february', 'march', 'april', 'may', 'june']
+        month = months.index(month) + 1
+
+        #Filter by month to create the new dataframe
+        df = df[df['month'] == month]
+
+    #Filter by day of week if applicable
+    if day != 'all':
+        #Filter by day of week to create the new dataframe
+        df = df[df['day_of_week'] == day.title()]
+
+    #Returns the selected file as a dataframe (df) with relevant columns
+    return df
 #Function to figure out the filtering requirements of the user
 def get_filters():
     """
@@ -72,45 +110,40 @@ def get_filters():
     #Returning the city, month and day selections
     return city, month, day
 
-#Function to load data from .csv files
-def load_data(city, month, day):
-    """
-    Loads data for the specified city and filters by month and day if applicable.
+
+#Function to calculate station related statistics
+def station_stats(df):
+    """Displays statistics on the most popular stations and trip.
     Args:
-        param1 (str): name of the city to analyze
-        param2 (str): name of the month to filter by, or "all" to apply no month filter
-        param3 (str): name of the day of week to filter by, or "all" to apply no day filter
+        param1 (df): The data frame you wish to work with.
     Returns:
-        df: Pandas DataFrame containing city data filtered by month and day
+        None.
     """
-    #Load data for city
-    print("\nLoading data...")
-    df = pd.read_csv(CITY_DATA[city])
 
-    #Convert the Start Time column to datetime
-    df['Start Time'] = pd.to_datetime(df['Start Time'])
+    print('\nCalculating The Most Popular Stations and Trip...\n')
+    start_time = time.time()
 
-    #Extract month and day of week from Start Time to create new columns
-    df['month'] = df['Start Time'].dt.month
-    df['day_of_week'] = df['Start Time'].dt.day_name()
+    #Uses mode method to find the most common start station
+    common_start_station = df['Start Station'].mode()[0]
 
-    #Filter by month if applicable
-    if month != 'all':
-        #Use the index of the months list to get the corresponding int
-        months = ['january', 'february', 'march', 'april', 'may', 'june']
-        month = months.index(month) + 1
+    print(f"The most commonly used start station: {common_start_station}")
 
-        #Filter by month to create the new dataframe
-        df = df[df['month'] == month]
+    #Uses mode method to find the most common end station
+    common_end_station = df['End Station'].mode()[0]
 
-    #Filter by day of week if applicable
-    if day != 'all':
-        #Filter by day of week to create the new dataframe
-        df = df[df['day_of_week'] == day.title()]
+    print(f"\nThe most commonly used end station: {common_end_station}")
 
-    #Returns the selected file as a dataframe (df) with relevant columns
-    return df
+    #Uses str.cat to combine two colums in the df
+    #Assigns the result to a new column 'Start To End'
+    #Uses mode on this new column to find out the most common combination
+    #of start and end stations
+    df['Start To End'] = df['Start Station'].str.cat(df['End Station'], sep=' to ')
+    combo = df['Start To End'].mode()[0]
 
+    print(f"\nThe most frequent combination of trips are from {combo}.")
+
+    print(f"\nThis took {(time.time() - start_time)} seconds.")
+    print('-'*80)
 #Function to calculate all the time-related statistics for the chosen data
 def time_stats(df):
     """Displays statistics on the most frequent times of travel.
@@ -144,40 +177,6 @@ def time_stats(df):
     #Prints the time taken to perform the calculation
     #You will find this in all the functions involving any calculation
     #throughout this program
-    print(f"\nThis took {(time.time() - start_time)} seconds.")
-    print('-'*80)
-
-#Function to calculate station related statistics
-def station_stats(df):
-    """Displays statistics on the most popular stations and trip.
-    Args:
-        param1 (df): The data frame you wish to work with.
-    Returns:
-        None.
-    """
-
-    print('\nCalculating The Most Popular Stations and Trip...\n')
-    start_time = time.time()
-
-    #Uses mode method to find the most common start station
-    common_start_station = df['Start Station'].mode()[0]
-
-    print(f"The most commonly used start station: {common_start_station}")
-
-    #Uses mode method to find the most common end station
-    common_end_station = df['End Station'].mode()[0]
-
-    print(f"\nThe most commonly used end station: {common_end_station}")
-
-    #Uses str.cat to combine two colums in the df
-    #Assigns the result to a new column 'Start To End'
-    #Uses mode on this new column to find out the most common combination
-    #of start and end stations
-    df['Start To End'] = df['Start Station'].str.cat(df['End Station'], sep=' to ')
-    combo = df['Start To End'].mode()[0]
-
-    print(f"\nThe most frequent combination of trips are from {combo}.")
-
     print(f"\nThis took {(time.time() - start_time)} seconds.")
     print('-'*80)
 
