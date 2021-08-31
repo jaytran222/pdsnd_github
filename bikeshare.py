@@ -3,6 +3,13 @@ refactor: rename load_data to data load_data
 
 resolve line #305
 
+feat: Update prompt reply to be extended as a formality.
+
+This welcome message is for the users running US Bikeshare data to to be analyzed.
+
+
+resolve line #71
+
 
 import time
 import pandas as pd
@@ -63,7 +70,7 @@ def get_filters():
         str (month): name of the month to filter by, or "all" to apply no month filter
         str (day): name of the day of week to filter by, or "all" to apply no day filter
     """
-    print('Hello! Let\'s explore some US bikeshare data!Thank you')
+    print('Hello! Let\'s explore some US bikeshare data!Lets get started')
     #Initializing an empty city variable to store city choice from user
     #You will see this repeat throughout the program
     city = ''
