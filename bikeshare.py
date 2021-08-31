@@ -1,3 +1,9 @@
+refactor: rename load_data to data load_data
+
+
+resolve line #305
+
+
 import time
 import pandas as pd
 import numpy as np
