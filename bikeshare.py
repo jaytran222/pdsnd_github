@@ -1,3 +1,13 @@
+fix: correct minor typos in code
+
+see the issue for details
+
+on typos fixed.
+
+Reviewed-by: JT
+Refs #70
+
+
 import time
 import pandas as pd
 import numpy as np
