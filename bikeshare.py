@@ -1,11 +1,11 @@
-fix: correct minor typos in code
+fix: correct typos in code
 
-see the issue for details
+see the issue for details on typos fixed see the issue for details
 
-on typos fixed.
+Reviewed by: JT
 
-Reviewed-by: JT
 Refs #70
+
 
 
 import time
@@ -67,7 +67,7 @@ def get_filters():
         str (month): name of the month to filter by, or "all" to apply no month filter
         str (day): name of the day of week to filter by, or "all" to apply no day filter
     """
-    print('Hello! Let\'s explore some US bikeshare data!Thank you')
+    print('Hello! Let\'s explore some US bikeshare data together. Lets go!')
     #Initializing an empty city variable to store city choice from user
     #You will see this repeat throughout the program
     city = ''
