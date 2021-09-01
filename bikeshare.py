@@ -1,6 +1,6 @@
-doc: update on formatting to Open Sans 11
+doc : update on formatting to Open Sans 11 
 
-To make the code look cleaner in executing
+to make the code look cleanred in executing
 
 
 
