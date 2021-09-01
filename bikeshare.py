@@ -1,3 +1,9 @@
+doc: update on formatting to Open Sans 11
+
+To make the code look cleaner in executing
+
+
+
 refactor: rename load_data to data load_data
 
 
