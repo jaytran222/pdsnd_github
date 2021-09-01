@@ -1,4 +1,4 @@
-doc: README.md updates
+doc: data updates on README.md 
 
 Made required updates for Date Created, Project Title, Description.
 
@@ -13,7 +13,7 @@ Resolves lines 9, 12, 15
 JTCommands Github
 
 ### Description
-Updates on Github repository 
+Updates on Github repository
 
 ### Files used
 Include the files used
