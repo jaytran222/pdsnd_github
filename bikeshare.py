@@ -1,13 +1,13 @@
-doc : update on formatting to Open Sans 11 
+doc : update on formatting to Open Sans 11
 
 to make the code look cleanred in executing
 
 
 
-refactor: rename load_data to data load_data
+refactor: rename load_data to data_load
 
 
-resolve line #305
+Resolve line# 305
 
 feat: Update prompt reply to be extended as a formality.
 
